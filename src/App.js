@@ -1,6 +1,7 @@
 import React from 'react';
 import TodoList from './components/TodoComponents/TodoList';
 import TodoForm from './components/TodoComponents/TodoForm';
+import './App.css';
 import Storage from './helpers/localStorage';
 
 class App extends React.Component {
@@ -35,6 +36,10 @@ class App extends React.Component {
       this.setState({ todos: itemsInStore });
     }
   }
+  clearForm() {
+    this.setState({ todos: [] });
+    this.setState({ value: '' });
+  }
 
   todoClick(id) {
     let todosCopy = this.state.todos;
@@ -60,7 +65,7 @@ class App extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="app-container">
         <TodoList
           todos={this.state.todos}
           todoClick={e => this.todoClick(e.target.id)}
@@ -69,6 +74,7 @@ class App extends React.Component {
           handleChange={e => this.handleChange(e.target.value)}
           handleSubmit={e => this.handleSubmit(e)}
           inputValue={this.state.value}
+          clearForm={() => this.clearForm()}
         />
       </div>
     );
