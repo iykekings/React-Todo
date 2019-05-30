@@ -19,7 +19,8 @@ class App extends React.Component {
           id: 1528817084358,
           completed: false
         }
-      ]
+      ],
+      value: ''
     };
   }
 
@@ -30,14 +31,25 @@ class App extends React.Component {
 
   todoClick(id) {
     const clicked = this.state.todos.find(todo => todo.id === +id);
+    const index = this.state.todos.findIndex(todo => todo.id === +id);
     clicked.completed = !clicked.completed;
-    this.setState({ ...this.state.todos, clicked });
+    this.setState((this.state.todos[index] = clicked));
   }
 
   handleChange(input) {
-    console.log(input);
+    this.setState({ value: input });
   }
-  handleSubmit() {}
+  handleSubmit(e) {
+    e.preventDefault();
+    const newTodo = {
+      completed: false,
+      task: this.state.value,
+      id: Date.now()
+    };
+    this.setState({ todos: [...this.state.todos, newTodo] });
+    this.setState({ value: '' });
+    console.log(this.state.todos);
+  }
   render() {
     return (
       <div>
@@ -45,7 +57,10 @@ class App extends React.Component {
           todos={this.state.todos}
           todoClick={e => this.todoClick(e.target.id)}
         />
-        <TodoForm />
+        <TodoForm
+          handleChange={e => this.handleChange(e.target.value)}
+          handleSubmit={e => this.handleSubmit(e)}
+        />
       </div>
     );
   }

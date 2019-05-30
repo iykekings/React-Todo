@@ -3,8 +3,8 @@ import React from 'react';
 const TodoForm = ({ handleSubmit, handleChange }) => {
   return (
     <div className="todo-form">
-      <form onSubmit={() => handleSubmit()}>
-        <input type="text" onChange={() => handleChange()} />
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <input type="text" onChange={e => handleChange(e)} />
       </form>
     </div>
   );
