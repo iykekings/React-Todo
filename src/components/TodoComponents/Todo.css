@@ -4,4 +4,13 @@
 
 .todo-list > li.complete {
   text-decoration: line-through;
+  background-color: #5adf69;
+}
+
+button {
+  background-color: #fa5151;
+  border-radius: 20px;
+  border-color: #fa5151;
+  color: white;
+  box-shadow: 4px 3px 9px #00000038;
 }

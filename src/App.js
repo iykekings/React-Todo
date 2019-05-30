@@ -31,7 +31,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const itemsInStore = this.storage.allItems;
+    const itemsInStore = this.storage.getAllItems();
     if (itemsInStore.length > 0) {
       this.setState({ todos: itemsInStore });
     }
@@ -41,7 +41,7 @@ class App extends React.Component {
     this.setState({ value: '' });
   }
   clearCompleted() {
-    this.setState({todos: this.state.todos.filter(todo => !todo.completed)})
+    this.setState({ todos: this.state.todos.filter(todo => !todo.completed) });
   }
   todoClick(id) {
     let todosCopy = this.state.todos;
@@ -68,17 +68,19 @@ class App extends React.Component {
   render() {
     return (
       <div className="app-container">
-        <TodoList
-          todos={this.state.todos}
-          todoClick={e => this.todoClick(e.target.id)}
-        />
-        <TodoForm
-          handleChange={e => this.handleChange(e.target.value)}
-          handleSubmit={e => this.handleSubmit(e)}
-          inputValue={this.state.value}
-          clearForm={() => this.clearForm()}
-          clearCompleted={() => this.clearCompleted()}
-        />
+        <div className="todos">
+          <TodoList
+            todos={this.state.todos}
+            todoClick={e => this.todoClick(e.target.id)}
+          />
+          <TodoForm
+            handleChange={e => this.handleChange(e.target.value)}
+            handleSubmit={e => this.handleSubmit(e)}
+            inputValue={this.state.value}
+            clearForm={() => this.clearForm()}
+            clearCompleted={() => this.clearCompleted()}
+          />
+        </div>
       </div>
     );
   }
