@@ -1,10 +1,12 @@
 import React from 'react';
 import TodoList from './components/TodoComponents/TodoList';
 import TodoForm from './components/TodoComponents/TodoForm';
+import Storage from './helpers/localStorage';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.storage = new Storage('todos');
     this.state = {
       todos: [
         {
@@ -21,6 +23,11 @@ class App extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const itemsInStore = this.storage.allItems;
+    this.setState({ ...this.state.todos, ...itemsInStore });
+  }
+
   todoClick(id) {
     const clicked = this.state.todos.find(todo => todo.id === +id);
     clicked.completed = !clicked.completed;
@@ -30,9 +37,7 @@ class App extends React.Component {
   handleChange(input) {
     console.log(input);
   }
-  handleChange() {
-    console.log(input);
-  }
+  handleSubmit() {}
   render() {
     return (
       <div>
@@ -40,7 +45,7 @@ class App extends React.Component {
           todos={this.state.todos}
           todoClick={e => this.todoClick(e.target.id)}
         />
-        <TodoForm handleChange={} handleSubmit={} />
+        <TodoForm />
       </div>
     );
   }
