@@ -24,16 +24,25 @@ class App extends React.Component {
     };
   }
 
+  componentDidUpdate() {
+    this.storage.reset();
+    this.state.todos.forEach(todo => this.storage.add(todo));
+  }
+
   componentDidMount() {
     const itemsInStore = this.storage.allItems;
-    this.setState({ ...this.state.todos, ...itemsInStore });
+    if (itemsInStore.length > 0) {
+      this.setState({ todos: itemsInStore });
+    }
   }
 
   todoClick(id) {
-    const clicked = this.state.todos.find(todo => todo.id === +id);
-    const index = this.state.todos.findIndex(todo => todo.id === +id);
+    let todosCopy = this.state.todos;
+    const clicked = todosCopy.find(todo => todo.id === +id);
+    const index = todosCopy.findIndex(todo => todo.id === +id);
     clicked.completed = !clicked.completed;
-    this.setState((this.state.todos[index] = clicked));
+    todosCopy[index] = clicked;
+    this.setState({ todos: todosCopy });
   }
 
   handleChange(input) {
@@ -48,7 +57,6 @@ class App extends React.Component {
     };
     this.setState({ todos: [...this.state.todos, newTodo] });
     this.setState({ value: '' });
-    console.log(this.state.todos);
   }
   render() {
     return (
@@ -60,6 +68,7 @@ class App extends React.Component {
         <TodoForm
           handleChange={e => this.handleChange(e.target.value)}
           handleSubmit={e => this.handleSubmit(e)}
+          inputValue={this.state.value}
         />
       </div>
     );

@@ -1,5 +1,6 @@
 import React from 'react';
 import Todo from './Todo';
+import './Todo.css';
 
 const TodoList = ({ todos, todoClick }) => {
   return (
@@ -9,7 +10,7 @@ const TodoList = ({ todos, todoClick }) => {
           completed={todo.completed}
           todoClick={todoClick}
           id={todo.id}
-          key={todo.id}
+          key={`${todo.id}${todo.task}`}
           task={todo.task}
         />
       ))}

@@ -1,11 +1,13 @@
 export default class Storage {
   constructor(identifier) {
     this.identifier = identifier;
-    this.allItems = this.allItems();
-    localStorage.setItem(identifier, '[]');
+    this.allItems = this.getAllItems();
+    const itemsInDB = localStorage.getItem(identifier) || [];
+    localStorage.removeItem(identifier);
+    localStorage.setItem(identifier, itemsInDB);
   }
 
-  allItems() {
+  getAllItems() {
     return JSON.parse(localStorage.getItem(this.identifier));
   }
 
@@ -13,10 +15,12 @@ export default class Storage {
     const all = this.allItems;
     all.push(item);
     localStorage.setItem(this.identifier, JSON.stringify(all));
+    this.allItems = this.getAllItems();
   }
 
   reset() {
-    localStorage.setItem(this.identifier, '[]');
+    localStorage.setItem(this.identifier, JSON.stringify('[]'));
+    this.allItems = [];
   }
 
   update(id, payload) {
@@ -27,6 +31,7 @@ export default class Storage {
     all.splice(currentIndex, 1);
     all.push(currentItem);
     localStorage.setItem(this.identifier, JSON.stringify(all));
+    this.allItems = this.getAllItems();
   }
 
   delete(id) {
@@ -34,9 +39,11 @@ export default class Storage {
     let index = all.findIndex(item => (item.id = id));
     all.splice(index, 1);
     localStorage.setItem(this.identifier, JSON.stringify(all));
+    this.allItems = this.getAllItems();
   }
 
   deleteDB() {
     localStorage.removeItem(this.identifier);
+    this.allItems = [];
   }
 }
