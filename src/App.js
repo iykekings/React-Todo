@@ -40,7 +40,9 @@ class App extends React.Component {
     this.setState({ todos: [] });
     this.setState({ value: '' });
   }
-
+  clearCompleted() {
+    this.setState({todos: this.state.todos.filter(todo => !todo.completed)})
+  }
   todoClick(id) {
     let todosCopy = this.state.todos;
     const clicked = todosCopy.find(todo => todo.id === +id);
@@ -75,6 +77,7 @@ class App extends React.Component {
           handleSubmit={e => this.handleSubmit(e)}
           inputValue={this.state.value}
           clearForm={() => this.clearForm()}
+          clearCompleted={() => this.clearCompleted()}
         />
       </div>
     );
